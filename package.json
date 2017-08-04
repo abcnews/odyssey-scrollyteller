@@ -1,0 +1,49 @@
+{
+    "name": "scrolly-story",
+    "version": "1.0.0",
+    "description": "A Preact-enabled ABC News story",
+    "license": "MIT",
+    "private": true,
+    "contributors": [
+        "Nathan Hoad <nathan@nathanhoad.net>"
+    ],
+    "aunty": {
+        "deploy": {
+            "contentftp": {
+                "files": "**",
+                "from": "build",
+                "to": "/www/res/sites/news-projects/<name>/<id>"
+            }
+        }
+    },
+    "scripts": {
+        "start": "aunty serve"
+    },
+    "devDependencies": {
+        "@abcnews/aunty": "3.1.x",
+        "@abcnews/webpacker": "^0.6.0",
+        "prettier": "^1.5.3"
+    },
+    "dependencies": {
+        "babel-plugin-transform-react-jsx": "^6.24.1",
+        "d3-force": "^1.0.6",
+        "d3-path": "^1.0.5",
+        "d3-selection": "^1.1.0",
+        "domready": "^1.0.8",
+        "narricle": "git+ssh://git@stash.abc-dev.net.au:7999/news/narricle.git",
+        "power-ranger": "^1.1.0",
+        "preact": "^8.2.1",
+        "preact-compat": "^3.16.0",
+        "smoothscroll": "^0.3.0"
+    },
+    "babel": {
+        "plugins": [
+            [
+                "transform-react-jsx",
+                {
+                    "pragma": "h"
+                }
+            ]
+        ]
+    }
+}

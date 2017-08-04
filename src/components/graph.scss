@@ -1,0 +1,13 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+}
+
+.wrapper svg {
+    height: 100vh;
+    width: 100vw;
+}
+
+.wrapper svg * {
+    transition: all 0.3s ease;
+}
