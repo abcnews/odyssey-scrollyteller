@@ -1,22 +1,19 @@
 /** @jsx Preact.h */
-const Preact = require('preact');
+import Preact from 'preact';
+import style from './style.scss';
+import Graph from './graph';
 
-const Graph = require('./graph');
-const styles = require('./background.scss');
-
-class Background extends Preact.Component {
+export default class Background extends Preact.Component {
     render() {
-        const { isFixed, marker } = this.props;
-
+        const { isFixed, marker, previousMarker } = this.props;
         return (
             <div
                 ref={el => (this.wrapper = el)}
-                className={`${styles.wrapper} ${styles[this.props.attachment]}`}
-                style={{ backgroundColor: marker ? marker.colour : '' }}>
-                <Graph marker={marker} />
+                className={`Block-media ${this.props
+                    .attachment} ${style.background}`}
+            >
+                <Graph marker={marker} previousMarker={previousMarker} />
             </div>
         );
     }
 }
-
-module.exports = Background;

@@ -1,19 +1,21 @@
 /** @jsx Preact.h */
-const Preact = require('preact');
-const HTML = require('./html');
+import Preact from 'preact';
 
-const styles = require('./marker.scss');
+export default class Marker extends Preact.Component {
+    shouldComponentUpdate() {
+        return false;
+    }
 
-class Marker extends Preact.Component {
     render() {
         const { marker } = this.props;
-
+        const rawHTML = { __html: marker.html };
         return (
-            <div ref={this.props.reference} className={styles.wrapper}>
-                <HTML html={marker.html} className={styles.detail} />
-            </div>
+            <div
+                dangerouslySetInnerHTML={rawHTML}
+                ref={this.props.reference}
+                id={this.props.id}
+                className={'Block-content u-layout u-richtext-invert'}
+            />
         );
     }
 }
-
-module.exports = Marker;

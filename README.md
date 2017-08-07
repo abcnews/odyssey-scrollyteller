@@ -1,46 +1,49 @@
-# scrolly-story
+# Odyssey Scrollyteller
 
-A project generated from [aunty](https://github.com/abcnews/aunty)'s `basic-story` template.
+This module integrates with [Odyssey](https://stash.abc-dev.net.au/projects/NEWS/repos/odyssey/browse) to implement 'scrollytelling' sections in Odyssey based stories.
 
+To use this, include it in the story along with the implementation of the visual element.
 
-## Hot Reload
-
-Hot reload is enabled by default on the development server. Your 'app' should be separated into the `src/index.js` loader
-and the actual app in `src/components/app.js`.
-
-If you want to see how hot reload is set up, have a look in `src/index.js` and you'll see something like this:
-
-```javascript
-if (process.env.NODE_ENV !== 'production' && module.hot) {
-    let renderFunction = render;
-    render = () => {
-        try {
-            renderFunction();
-        } catch (e) {
-            const { Error } = require('./error');
-            root = Preact.render(<Error error={e} />, element, root);
-        }
-    };
-
-    module.hot.accept('./components/app', () => {
-        setTimeout(render);
-    });
-}
+```
+Some text before the scrollytelling portion of the story starts.
+#scrollyteller
+[link to your interactive here]
+A first paragraph of the scrollytelling experience.
+#markIDone
+A second section. These sections can be broken into multiple paragraphs and are divided by the '#mark' anchors.
+The '#mark' anchors also act as waypoints for which Odyssey Scrollyteller will create events.
+#markIDtwo
+When the start of each section scrolls past the bottom of the viewport, a new event is fired on the background element (which can then bubble up the DOM, so you can listen for it anywhere).
+#endscrollyteller
+You can then carry on your story after the scrollytelling section.
 ```
 
-This just means that when `NODE_ENV` is 'development' the app will always be listening for changes and when it detects
-a new build (a change to `./components/app` or its dependencies) it will automatically require in the new code.
+## Usage
 
-If there was an error when compiling you will see an error box instead of your app. Once you fix the error it will vanish
-and your app will be back.
+To hook into the events, use some variation on this code:
 
+```js
+// Initialise
+const stage = container.querySelector('[selector-for-your-interactive] .scrollyteller-stage');
+if (stage && stage.__SCROLLYTELLER__) {
+  init({
+    detail: {
+      activated: stage.__SCROLLYTELLER__.activated,
+      deactivated: stage.__SCROLLYTELLER__.deactivated
+    }
+  });
+} else {
+  // console.log('waiting for the stage');
+  container.addEventListener('mark', init);
+}
 
-## Using React components with Preact
+function init(markEvent) {
+    // Do your thing
+}
 
-This template comes with [`preact-compat`](https://www.npmjs.com/package/preact-compat) so any React components should
-Just Work™.
-
+```
 
 ## Authors
 
 - Nathan Hoad ([nathan@nathanhoad.net](mailto:nathan@nathanhoad.net))
+- Simon Elvery([simon@elvery.net](mailto:simon@elvery.net))

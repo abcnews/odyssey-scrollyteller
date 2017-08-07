@@ -1,33 +1,28 @@
 /** @jsx Preact.h */
-const Preact = require('preact');
-const { start, subscribe, unsubscribe } = require('narricle/scheduler');
+import Preact from 'preact';
+import initMarkers from '../loader';
+import Marker from './marker';
+import Background from './background';
 
-const { initMarkers } = require('../loader');
-const Marker = require('./marker');
-const Background = require('./background');
-
-const styles = require('./app.scss');
-
-class App extends Preact.Component {
+export default class App extends Preact.Component {
     constructor(props) {
         super(props);
 
         this.onScroll = this.onScroll.bind(this);
 
         this.state = {
-            markers: initMarkers('mark'),
+            markers: initMarkers(props.section),
             currentMarker: null,
             isBackgroundFixed: false
         };
     }
 
     componentDidMount() {
-        start();
-        subscribe(this.onScroll);
+        __ODYSSEY__.scheduler.subscribe(this.onScroll);
     }
 
     componentWillUnmount() {
-        unsubscribe(this.onScroll);
+        __ODYSSEY__.scheduler.unsubscribe(this.onScroll);
     }
 
     onScroll(view) {
@@ -43,7 +38,9 @@ class App extends Preact.Component {
         let lastSeenMarker = pastMarkers[pastMarkers.length - 1];
         if (!lastSeenMarker) lastSeenMarker = this.state.markers[0];
         if (this.state.currentMarker !== lastSeenMarker) {
+            // console.log('onScroll', lastSeenMarker, this.state.currentMarker);
             this.setState({
+                previousMarker: this.state.currentMarker,
                 currentMarker: lastSeenMarker
             });
         }
@@ -54,11 +51,11 @@ class App extends Preact.Component {
 
             let backgroundAttachment;
             if (bounds.top > 0) {
-                backgroundAttachment = 'before';
+                backgroundAttachment = '';
             } else if (bounds.bottom < view.height) {
-                backgroundAttachment = 'after';
+                backgroundAttachment = 'is-beyond';
             } else {
-                backgroundAttachment = 'during';
+                backgroundAttachment = 'is-fixed';
             }
 
             this.setState({ backgroundAttachment });
@@ -69,9 +66,11 @@ class App extends Preact.Component {
         return (
             <div
                 ref={el => (this.wrapper = el)}
-                className={'u-full ' + styles.wrapper}>
+                className={'u-full Block is-richtext is-piecemeal'}
+            >
                 <Background
                     marker={this.state.currentMarker}
+                    previousMarker={this.state.previousMarker}
                     attachment={this.state.backgroundAttachment}
                 />
                 {this.state.markers.map(marker =>
@@ -85,5 +84,3 @@ class App extends Preact.Component {
         );
     }
 }
-
-module.exports = App;
