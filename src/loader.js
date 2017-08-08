@@ -34,7 +34,7 @@ function getGroups(group, idx, all) {
     return group;
 }
 
-export default function initMarkers(section) {
+function initMarkers(section) {
     let name = 'mark';
 
     let markers = section.betweenNodes
@@ -66,3 +66,5 @@ export default function initMarkers(section) {
 
     return groups;
 }
+
+export { initMarkers, alternatingCaseToObject };

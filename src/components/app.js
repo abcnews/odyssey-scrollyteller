@@ -1,6 +1,6 @@
 /** @jsx Preact.h */
 import Preact from 'preact';
-import initMarkers from '../loader';
+import { initMarkers, alternatingCaseToObject } from '../loader';
 import Marker from './marker';
 import Background from './background';
 
@@ -12,6 +12,9 @@ export default class App extends Preact.Component {
 
         this.state = {
             markers: initMarkers(props.section),
+            align:
+                alternatingCaseToObject(props.section.configSC).align ||
+                'centre',
             currentMarker: null,
             isBackgroundFixed: false
         };
@@ -66,7 +69,8 @@ export default class App extends Preact.Component {
         return (
             <div
                 ref={el => (this.wrapper = el)}
-                className={'u-full Block is-richtext is-piecemeal'}
+                className={`u-full Block is-richtext is-${this.state
+                    .align} is-piecemeal`}
             >
                 <Background
                     marker={this.state.currentMarker}
