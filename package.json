@@ -1,12 +1,10 @@
 {
-  "name": "scrolly-story",
-  "version": "1.0.0",
-  "description": "A Preact-enabled ABC News story",
+  "name": "odyssey-scrollyteller",
+  "version": "1.0.1",
+  "description": "An addon for Odyssey which provides a scrollytelling section type.",
   "license": "MIT",
   "private": true,
-  "contributors": [
-    "Nathan Hoad <nathan@nathanhoad.net>"
-  ],
+  "contributors": ["Nathan Hoad <nathan@nathanhoad.net>", "Simon Elvery <simon@elvery.net>"],
   "aunty": {
     "deploy": {
       "contentftp": {
