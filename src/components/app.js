@@ -10,11 +10,11 @@ export default class App extends Preact.Component {
 
         this.onScroll = this.onScroll.bind(this);
 
+        this.config = alternatingCaseToObject(props.section.configSC);
+
         this.state = {
             markers: initMarkers(props.section),
-            align:
-                alternatingCaseToObject(props.section.configSC).align ||
-                'centre',
+            align: this.config.align || 'centre',
             currentMarker: null,
             isBackgroundFixed: false
         };
@@ -30,12 +30,9 @@ export default class App extends Preact.Component {
 
     onScroll(view) {
         // Work out which marker is the current one
-        const fold = view.height * 0.4;
+        const fold = view.height * (this.config.waypoint ? this.config.waypoint / 100 : 0.8);
         const pastMarkers = this.state.markers.filter(marker => {
-            return (
-                marker.element &&
-                marker.element.getBoundingClientRect().top < fold
-            );
+            return marker.element && marker.element.getBoundingClientRect().top < fold;
         });
 
         let lastSeenMarker = pastMarkers[pastMarkers.length - 1];
@@ -69,8 +66,7 @@ export default class App extends Preact.Component {
         return (
             <div
                 ref={el => (this.wrapper = el)}
-                className={`u-full Block is-richtext is-${this.state
-                    .align} is-piecemeal`}
+                className={`u-full Block is-richtext is-${this.state.align} is-piecemeal`}
             >
                 <Background
                     marker={this.state.currentMarker}
