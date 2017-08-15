@@ -20,8 +20,7 @@
     "start": "aunty serve"
   },
   "devDependencies": {
-    "@abcnews/aunty": "3.1.x",
-    "@abcnews/webpacker": "^1.0.0",
+    "@abcnews/aunty": "^4.2.4",
     "prettier": "^1.5.3"
   },
   "dependencies": {

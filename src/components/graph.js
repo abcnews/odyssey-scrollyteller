@@ -23,9 +23,7 @@ export default class Graph extends Preact.Component {
     }
 
     render() {
-        return (
-            <div class="scrollyteller-stage" ref={el => (this.wrapper = el)} />
-        );
+        return <div className="scrollyteller-stage" ref={el => (this.wrapper = el)} />;
     }
 
     draw(marker, previousMarker) {
