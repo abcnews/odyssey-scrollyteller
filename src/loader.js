@@ -30,6 +30,7 @@ function getGroups(group, idx, all) {
     }
 
     group.html = html;
+    group.idx = idx;
 
     return group;
 }
@@ -38,11 +39,7 @@ function initMarkers(section) {
     let name = 'mark';
 
     let markers = section.betweenNodes
-        .filter(
-            node =>
-                node.getAttribute('name') &&
-                node.getAttribute('name').indexOf(name) === 0
-        )
+        .filter(node => node.getAttribute('name') && node.getAttribute('name').indexOf(name) === 0)
         .map(node => {
             const configSC = node.getAttribute('name').slice(name.length);
             return {
