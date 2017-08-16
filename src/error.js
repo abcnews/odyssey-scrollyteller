@@ -1,4 +1,3 @@
-/** @jsx Preact.h */
 import Preact from 'preact';
 
 export default class ErrorBox extends Preact.Component {
@@ -7,7 +6,6 @@ export default class ErrorBox extends Preact.Component {
     }
 
     render() {
-        console.error(this.props.error);
         const errorStyle = {
             background: '#900',
             color: 'white',

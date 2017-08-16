@@ -1,70 +1,119 @@
 function alternatingCaseToObject(string) {
+    const config = string.match(/[A-Z]+[0-9a-z]+/g);
+
+    if (!config) return {};
+
     let o = {};
-    let match = string.match(/[A-Z]+[0-9a-z]+/g);
-    if (match) {
-        match.forEach(match => {
-            const [, key, value] = match.match(/([A-Z]+)([0-9a-z]+)/);
-            o[key.toLowerCase()] = value;
-        });
-    }
+
+    config.forEach(match => {
+        let [, key, value] = match.match(/([A-Z]+)([0-9a-z]+)/);
+        key = key.toLowerCase();
+
+        // Do some type guessing
+        if (parseFloat(value).toString() === value) {
+            value = parseFloat(value);
+        } else if (value === 'true' || value === 'yes') {
+            value = true;
+        } else if (value === 'false' || value === 'no') {
+            value = false;
+        }
+
+        if (o[key]) {
+            // Key exists so treat it as a list
+            if (!(o[key] instanceof Array)) {
+                o[key] = [o[key]];
+            }
+            o[key].push(value);
+        } else {
+            o[key] = value;
+        }
+    });
+
     return o;
 }
 
-function getGroups(group, idx, all) {
-    // While has next sibling and next sibling is valid (not a group and not null)
-    let allNodes = all.map(g => g.node);
-    let nextNode = group.node.nextSibling;
-    if (idx === 0 && !!nextNode) nextNode = nextNode.nextSibling;
-    let html = '';
-    while (nextNode && allNodes.indexOf(nextNode) < 0) {
-        if (nextNode.outerHTML) {
-            html += nextNode.outerHTML;
-        }
-        nextNode = nextNode.nextSibling;
+// Load any scrollyteller content from Odyssey
+let scrollytellers;
+function getScrollytellers() {
+    if (!scrollytellers) {
+        scrollytellers = window.__ODYSSEY__.utils.anchors
+            .getSections('scrollyteller')
+            .map(section => {
+                // Create a node that we can mount onto
+                section.mountNode = document.createElement('div');
+                section.mountNode.className = 'u-full';
+                section.startNode.parentNode.insertBefore(
+                    section.mountNode,
+                    section.startNode
+                );
 
-        // TODO: Work out how to keep a cache of the old DOM so hot reload works nicely
-        // Remove current article from the DOM
-        // if (nextNode) {
-        //     nextNode.previousSibling.remove();
-        // }
+                // Load the config and find any waypoints
+                section.config = alternatingCaseToObject(section.configSC);
+                section.markers = initMarkers(section, 'mark');
+
+                return section;
+            });
+    }
+    return scrollytellers;
+}
+
+function initMarkers(section, name) {
+    let markers = [];
+    let nextConfig = section.config;
+    let nextNodes = [];
+
+    let idx = 0;
+
+    // Commit the current nodes to a marker
+    function pushMarker() {
+        if (nextNodes.length === 0) return;
+
+        markers.push({
+            idx: idx++,
+            config: nextConfig,
+            nodes: nextNodes,
+            section
+        });
+        nextNodes = [];
     }
 
-    group.html = html;
+    // Check the section nodes for markers and marker content
+    section.betweenNodes.forEach((node, index) => {
+        if (
+            node.tagName === 'A' &&
+            node.getAttribute('name') &&
+            node.getAttribute('name').indexOf(name) === 0
+        ) {
+            // Found a new marker so we should commit the last one
+            pushMarker();
 
-    return group;
-}
-
-function initMarkers(section) {
-    let name = 'mark';
-
-    let markers = section.betweenNodes
-        .filter(
-            node =>
-                node.getAttribute('name') &&
-                node.getAttribute('name').indexOf(name) === 0
-        )
-        .map(node => {
-            const configSC = node.getAttribute('name').slice(name.length);
-            return {
-                name,
-                configSC,
-                config: alternatingCaseToObject(configSC),
-                node
-            };
-        });
-
-    let groups = [
-        {
-            name: section.name,
-            configSC: section.configSC,
-            config: alternatingCaseToObject(section.configSC),
-            node: section.startNode
+            // If marker has no config then just use the previous config
+            let configString = node
+                .getAttribute('name')
+                .replace(new RegExp(`^${name}`), '');
+            if (configString) {
+                nextConfig = alternatingCaseToObject(configString);
+                nextConfig.hash = configString;
+            }
+        } else {
+            // Any other nodes just get grouped for the next marker
+            nextNodes.push(node);
         }
-    ]
-        .concat(markers)
-        .map(getGroups);
 
-    return groups;
+        // Any trailing nodes just get added as a last marker
+        if (index === section.betweenNodes.length - 1) {
+            pushMarker();
+        }
+
+        // If we are rolling up then do it and then forget about it until the next
+        // marker
+        if (nextConfig.rollup && nextNodes.length === nextConfig.rollup) {
+            pushMarker();
+            delete nextConfig.rollup;
+        }
+    });
+
+    return markers;
 }
 
-export { initMarkers, alternatingCaseToObject };
+export { getScrollytellers };

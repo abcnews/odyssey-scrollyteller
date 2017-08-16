@@ -1,6 +1,4 @@
-/** @jsx Preact.h */
 import Preact from 'preact';
-import { initMarkers, alternatingCaseToObject } from '../loader';
 import Marker from './marker';
 import Background from './background';
 
@@ -10,13 +8,13 @@ export default class App extends Preact.Component {
 
         this.onScroll = this.onScroll.bind(this);
 
-        this.config = alternatingCaseToObject(props.section.configSC);
+        this.config = props.section.config;
 
         this.state = {
-            markers: initMarkers(props.section),
+            markers: props.section.markers,
             align: this.config.align || 'centre',
             currentMarker: null,
-            isBackgroundFixed: false
+            backgroundAttachment: 'before'
         };
     }
 
@@ -30,9 +28,14 @@ export default class App extends Preact.Component {
 
     onScroll(view) {
         // Work out which marker is the current one
-        const fold = view.height * (this.config.waypoint ? this.config.waypoint / 100 : 0.8);
+        const fold =
+            view.height *
+            (this.config.waypoint ? this.config.waypoint / 100 : 0.8);
         const pastMarkers = this.state.markers.filter(marker => {
-            return marker.element && marker.element.getBoundingClientRect().top < fold;
+            return (
+                marker.element &&
+                marker.element.getBoundingClientRect().top < fold
+            );
         });
 
         let lastSeenMarker = pastMarkers[pastMarkers.length - 1];
@@ -63,21 +66,22 @@ export default class App extends Preact.Component {
     }
 
     render() {
+        const { align, markers, previousMarker, currentMarker } = this.state;
+
         return (
             <div
                 ref={el => (this.wrapper = el)}
-                className={`u-full Block is-richtext is-${this.state.align} is-piecemeal`}
-            >
+                className={`u-full Block is-richtext is-${align} is-piecemeal`}>
                 <Background
-                    marker={this.state.currentMarker}
-                    previousMarker={this.state.previousMarker}
+                    marker={currentMarker}
+                    previousMarker={previousMarker}
                     attachment={this.state.backgroundAttachment}
                 />
-                {this.state.markers.map(marker =>
+                {markers.map(marker =>
                     <Marker
                         marker={marker}
                         reference={el => (marker.element = el)}
-                        isCurrentMarker={this.state.currentMarker === marker}
+                        isCurrentMarker={currentMarker === marker}
                     />
                 )}
             </div>

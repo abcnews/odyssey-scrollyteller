@@ -1,21 +1,43 @@
-/** @jsx Preact.h */
 import Preact from 'preact';
 
 export default class Marker extends Preact.Component {
+    constructor(props) {
+        super(props);
+
+        this.ref = this.ref.bind(this);
+    }
+
     shouldComponentUpdate() {
         return false;
     }
 
+    componentWillUnmount() {
+        if (!this.props.marker.nodes) return;
+
+        this.props.marker.nodes.forEach(node => {
+            this.element.removeChild(node);
+        });
+    }
+
     render() {
-        const { marker } = this.props;
-        const rawHTML = { __html: marker.html };
         return (
             <div
-                dangerouslySetInnerHTML={rawHTML}
-                ref={this.props.reference}
+                ref={this.ref}
                 id={this.props.id}
                 className={'Block-content u-layout u-richtext-invert'}
             />
         );
+    }
+
+    ref(element) {
+        if (!element) return;
+        if (!this.props.marker.nodes) return;
+
+        this.element = element;
+        this.props.marker.nodes.forEach(node => {
+            this.element.appendChild(node);
+        });
+
+        this.props.reference(this.element);
     }
 }
