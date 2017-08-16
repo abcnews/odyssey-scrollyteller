@@ -1,18 +1,13 @@
-/** @jsx Preact.h */
 import Preact from 'preact';
-import ErrorBox from './error';
-import App from './components/app';
+import { getScrollytellers } from './loader';
 
-let sections = () => {
-    __ODYSSEY__.utils.anchors.getSections('scrollyteller').forEach(section => {
-        let element = section.betweenNodes.shift().firstChild;
-        render(element, section);
-        section.substituteWith(element);
-    });
+let init = () => {
+    getScrollytellers().forEach(section => render(section.mountNode, section));
 };
 
 let render = (element, section) => {
-    Preact.render(<App section={section} />, element);
+    const App = require('./components/app').default;
+    Preact.render(<App section={section} />, element, element.lastChild);
 };
 
 // Do some hot reload magic with errors
@@ -24,18 +19,19 @@ if (process.env.NODE_ENV !== 'production' && module.hot) {
             renderFunction(element, section);
         } catch (e) {
             // Render the error to the screen in place of the actual app
+            const ErrorBox = require('./error').default;
             Preact.render(<ErrorBox error={e} />, element);
         }
     };
 
     // If a new app build is detected try rendering it
     module.hot.accept('./components/app', () => {
-        setTimeout(render);
+        setTimeout(init);
     });
 }
 
 if (window.__ODYSSEY__) {
-    sections();
+    init();
 } else {
-    window.addEventListener('odyssey:api', sections);
+    window.addEventListener('odyssey:api', init);
 }

@@ -1,48 +1,30 @@
 {
-  "name": "odyssey-scrollyteller",
-  "version": "1.0.1",
-  "description": "An addon for Odyssey which provides a scrollytelling section type.",
-  "license": "MIT",
-  "private": true,
-  "contributors": ["Nathan Hoad <nathan@nathanhoad.net>", "Simon Elvery <simon@elvery.net>"],
-  "aunty": {
-    "deploy": {
-      "contentftp": {
-        "files": "**",
-        "from": "build",
-        "to": "/www/res/sites/news-projects/<name>/<id>"
-      }
-    }
-  },
-  "scripts": {
-    "start": "aunty serve"
-  },
-  "devDependencies": {
-    "@abcnews/aunty": "^4.2.4",
-    "prettier": "^1.5.3"
-  },
-  "dependencies": {
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "d3-force": "^1.0.6",
-    "d3-path": "^1.0.5",
-    "d3-selection": "^1.1.0",
-    "domready": "^1.0.8",
-    "narricle": "git+ssh://git@stash.abc-dev.net.au:7999/news/narricle.git",
-    "node-sass": "^4.5.3",
-    "power-ranger": "^1.1.0",
-    "preact": "^8.2.1",
-    "preact-compat": "^3.16.0",
-    "sass-loader": "^6.0.6",
-    "smoothscroll": "^0.3.0"
-  },
-  "babel": {
-    "plugins": [
-      [
-        "transform-react-jsx",
-        {
-          "pragma": "h"
+    "name": "odyssey-scrollyteller",
+    "version": "1.0.1",
+    "description": "An addon for Odyssey which provides a scrollytelling section type.",
+    "license": "MIT",
+    "private": true,
+    "contributors": [
+        "Nathan Hoad <nathan@nathanhoad.net>",
+        "Simon Elvery <simon@elvery.net>"
+    ],
+    "aunty": {
+        "deploy": {
+            "contentftp": {
+                "files": "**",
+                "from": "build",
+                "to": "/www/res/sites/news-projects/<name>/<id>"
+            }
         }
-      ]
-    ]
-  }
+    },
+    "scripts": {
+        "start": "aunty serve"
+    },
+    "devDependencies": {
+        "@abcnews/aunty": "^4.2.4"
+    },
+    "dependencies": {
+        "preact": "^8.2.1",
+        "preact-compat": "^3.16.0"
+    }
 }
