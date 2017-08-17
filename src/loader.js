@@ -44,7 +44,8 @@ function getScrollytellers() {
                     section.mountNode = section.betweenNodes[0].querySelector(
                         '.init-interactive'
                     );
-                    section.betweenNodes[0].mountable = true; // Don't include this in the marker check
+                    // Don't include this node in the marker check
+                    section.betweenNodes[0].mountable = true;
                 } else {
                     // Create a node that we can mount onto
                     section.mountNode = document.createElement('div');
@@ -102,6 +103,9 @@ function initMarkers(section, name) {
             if (configString) {
                 nextConfig = alternatingCaseToObject(configString);
                 nextConfig.hash = configString;
+            } else {
+                // Empty marks should stop the piecemeal flow
+                nextConfig.piecemeal = false;
             }
         } else if (!node.mountable) {
             // Any other nodes just get grouped for the next marker
@@ -114,9 +118,8 @@ function initMarkers(section, name) {
             pushMarker();
         }
 
-        // If we are rolling up then do it and then forget about it until the next
-        // marker
-        if (nextConfig.rollup && nextNodes.length === nextConfig.rollup) {
+        // If piecemeal is on/true then each node has its own box
+        if (nextConfig.piecemeal) {
             pushMarker();
             delete nextConfig.rollup;
         }
