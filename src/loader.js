@@ -39,13 +39,21 @@ function getScrollytellers() {
         scrollytellers = window.__ODYSSEY__.utils.anchors
             .getSections('scrollyteller')
             .map(section => {
-                // Create a node that we can mount onto
-                section.mountNode = document.createElement('div');
-                section.mountNode.className = 'u-full';
-                section.startNode.parentNode.insertBefore(
-                    section.mountNode,
-                    section.startNode
-                );
+                // See if there is an interactive node as the first thing
+                if (section.betweenNodes[0].tagName === 'DIV') {
+                    section.mountNode = section.betweenNodes[0].querySelector(
+                        '.init-interactive'
+                    );
+                    section.betweenNodes[0].mountable = true; // Don't include this in the marker check
+                } else {
+                    // Create a node that we can mount onto
+                    section.mountNode = document.createElement('div');
+                    section.mountNode.className = 'u-full';
+                    section.startNode.parentNode.insertBefore(
+                        section.mountNode,
+                        section.startNode
+                    );
+                }
 
                 // Load the config and find any waypoints
                 section.config = alternatingCaseToObject(section.configSC);
@@ -95,7 +103,7 @@ function initMarkers(section, name) {
                 nextConfig = alternatingCaseToObject(configString);
                 nextConfig.hash = configString;
             }
-        } else {
+        } else if (!node.mountable) {
             // Any other nodes just get grouped for the next marker
             nextNodes.push(node);
         }
