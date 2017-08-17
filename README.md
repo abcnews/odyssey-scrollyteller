@@ -24,24 +24,43 @@ To hook into the events, use some variation on this code:
 
 ```js
 // Initialise
-const stage = container.querySelector('[selector-for-your-interactive] .scrollyteller-stage');
-if (stage && stage.__SCROLLYTELLER__) {
+const stage = document.querySelector('[selector-for-your-interactive] .scrollyteller-stage');
+
+if (stage) {
   init({
-    detail: {
-      activated: stage.__SCROLLYTELLER__.activated,
-      deactivated: stage.__SCROLLYTELLER__.deactivated
-    }
+    target: stage,
+    detail: stage.__SCROLLYTELLER__
   });
 } else {
   // console.log('waiting for the stage');
-  container.addEventListener('mark', init);
+  document.addEventListener('mark', init);
 }
 
-function init(markEvent) {
-    // Do your thing
+function init(ev) {
+    console.log(ev.target); // the stage element
+    console.log(ev.detail); // the `activated` and `deactivated` marks (if any)
 }
-
 ```
+
+## Configuration options
+
+The opening `#scrollyteller` tag takes some options which are specified using an alternating case syntax. For example, the opening tag `#scrollytellerHELLOworldMEANING42` will result in a config object which looks like:
+
+```js
+{
+    hello: "world",
+    meaning: 42
+}
+```
+
+The config options available are:
+
+- `ALIGN` (`left`|`right`): Align the content to the left or right when the screen is wide enough. Defaults to `centre` alignment.
+- `WAYPOINT` (integer between `0` and `100`): Defines where on the viewport (% distance from top) `#mark` events are triggered. Defaults to `80`.
+
+There is also an option available on individual `#mark` tags.
+
+- `PIECEMEAL` (`true`): Sets all elements between this mark and the next to get their own visual container instead of being grouped together (the default behaviour).
 
 ## Authors
 
