@@ -11,7 +11,7 @@ let render = (element, section) => {
 };
 
 // Do some hot reload magic with errors
-if (process.env.NODE_ENV !== 'production' && module.hot) {
+if (module.hot) {
     // Wrap the actual renderer in an error trap
     let renderFunction = render;
     render = (element, section) => {
