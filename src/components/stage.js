@@ -22,22 +22,12 @@ export default class Stage extends Preact.Component {
     }
 
     render() {
-        return (
-            <div
-                className="scrollyteller-stage"
-                ref={el => (this.wrapper = el)}
-            />
-        );
+        return <div className="scrollyteller-stage" ref={el => (this.wrapper = el)} />;
     }
 
     onMarker(marker, previousMarker) {
         // Don't fire the event if the transitioning markers are the same
-        if (
-            marker &&
-            previousMarker &&
-            marker.config.hash === previousMarker.config.hash
-        )
-            return;
+        if (marker && previousMarker && marker.config.hash === previousMarker.config.hash) return;
 
         // Let them know we just changed markers
         let event = new CustomEvent('mark', {

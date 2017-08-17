@@ -36,32 +36,25 @@ function alternatingCaseToObject(string) {
 let scrollytellers;
 function getScrollytellers() {
     if (!scrollytellers) {
-        scrollytellers = window.__ODYSSEY__.utils.anchors
-            .getSections('scrollyteller')
-            .map(section => {
-                // See if there is an interactive node as the first thing
-                if (section.betweenNodes[0].tagName === 'DIV') {
-                    section.mountNode = section.betweenNodes[0].querySelector(
-                        '.init-interactive'
-                    );
-                    // Don't include this node in the marker check
-                    section.betweenNodes[0].mountable = true;
-                } else {
-                    // Create a node that we can mount onto
-                    section.mountNode = document.createElement('div');
-                    section.mountNode.className = 'u-full';
-                    section.startNode.parentNode.insertBefore(
-                        section.mountNode,
-                        section.startNode
-                    );
-                }
+        scrollytellers = window.__ODYSSEY__.utils.anchors.getSections('scrollyteller').map(section => {
+            // See if there is an interactive node as the first thing
+            if (section.betweenNodes[0].tagName === 'DIV') {
+                section.mountNode = section.betweenNodes[0].querySelector('.init-interactive');
+                // Don't include this node in the marker check
+                section.betweenNodes[0].mountable = true;
+            } else {
+                // Create a node that we can mount onto
+                section.mountNode = document.createElement('div');
+                section.mountNode.className = 'u-full';
+                section.startNode.parentNode.insertBefore(section.mountNode, section.startNode);
+            }
 
-                // Load the config and find any waypoints
-                section.config = alternatingCaseToObject(section.configSC);
-                section.markers = initMarkers(section, 'mark');
+            // Load the config and find any waypoints
+            section.config = alternatingCaseToObject(section.configSC);
+            section.markers = initMarkers(section, 'mark');
 
-                return section;
-            });
+            return section;
+        });
     }
     return scrollytellers;
 }
@@ -88,18 +81,12 @@ function initMarkers(section, name) {
 
     // Check the section nodes for markers and marker content
     section.betweenNodes.forEach((node, index) => {
-        if (
-            node.tagName === 'A' &&
-            node.getAttribute('name') &&
-            node.getAttribute('name').indexOf(name) === 0
-        ) {
+        if (node.tagName === 'A' && node.getAttribute('name') && node.getAttribute('name').indexOf(name) === 0) {
             // Found a new marker so we should commit the last one
             pushMarker();
 
             // If marker has no config then just use the previous config
-            let configString = node
-                .getAttribute('name')
-                .replace(new RegExp(`^${name}`), '');
+            let configString = node.getAttribute('name').replace(new RegExp(`^${name}`), '');
             if (configString) {
                 nextConfig = alternatingCaseToObject(configString);
                 nextConfig.hash = configString;
