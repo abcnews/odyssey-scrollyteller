@@ -20,7 +20,7 @@ if (module.hot) {
         } catch (e) {
             // Render the error to the screen in place of the actual app
             const ErrorBox = require('./error').default;
-            Preact.render(<ErrorBox error={e} />, element);
+            Preact.render(<ErrorBox error={e} />, element, element.lastChild);
         }
     };
 
