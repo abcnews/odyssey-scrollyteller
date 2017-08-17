@@ -121,7 +121,6 @@ function initMarkers(section, name) {
         // If piecemeal is on/true then each node has its own box
         if (nextConfig.piecemeal) {
             pushMarker();
-            delete nextConfig.rollup;
         }
     });
 
