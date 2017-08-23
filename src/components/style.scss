@@ -4,3 +4,9 @@
         display: none;
     }
 }
+
+:global {
+    .is-piecemeal>.Block-content:last-child {
+        margin-bottom: 100vh; 
+    }
+}
