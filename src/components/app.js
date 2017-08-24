@@ -71,7 +71,7 @@ export default class App extends Preact.Component {
         return (
             <div
                 ref={el => (this.wrapper = el)}
-                className={`u-full Block is-richtext is-${align} is-piecemeal`}>
+                className={`u-full Block is-richtext is-${align} is-piecemeal is-scrollyteller`}>
                 <Background
                     marker={currentMarker}
                     previousMarker={previousMarker}
