@@ -1,6 +1,6 @@
-import Preact from 'preact';
+import { h, Component } from 'preact';
 
-export default class Stage extends Preact.Component {
+export default class Stage extends Component {
     constructor(props) {
         super(props);
 

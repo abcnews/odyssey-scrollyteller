@@ -1,8 +1,8 @@
-import Preact from 'preact';
+import { h, Component } from 'preact';
 import Marker from './marker';
 import Background from './background';
 
-export default class App extends Preact.Component {
+export default class App extends Component {
     constructor(props) {
         super(props);
 

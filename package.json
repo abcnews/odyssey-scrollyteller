@@ -4,21 +4,18 @@
   "description": "An addon for Odyssey which provides a scrollytelling section type.",
   "license": "MIT",
   "private": true,
-  "contributors": ["Nathan Hoad <nathan@nathanhoad.net>", "Simon Elvery <simon@elvery.net>"],
+  "contributors": [
+    "Nathan Hoad <nathan@nathanhoad.net>",
+    "Simon Elvery <simon@elvery.net>"
+  ],
   "aunty": {
-    "deploy": {
-      "contentftp": {
-        "files": "**",
-        "from": "build",
-        "to": "/www/res/sites/news-projects/<name>/<id>"
-      }
-    }
+    "type": "preact-app"
   },
   "scripts": {
     "start": "aunty serve"
   },
   "devDependencies": {
-    "@abcnews/aunty": "^4.2.4"
+    "@abcnews/aunty": "^5.1.3"
   },
   "dependencies": {
     "preact": "^8.2.1",

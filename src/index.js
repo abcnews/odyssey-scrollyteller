@@ -1,4 +1,5 @@
-import Preact from 'preact';
+import Preact, { h } from 'preact';
+
 import { getScrollytellers } from './loader';
 
 let init = () => {
