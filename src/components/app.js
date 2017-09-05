@@ -1,8 +1,8 @@
-import Preact from 'preact';
+import { h, Component } from 'preact';
 import Marker from './marker';
 import Background from './background';
 
-export default class App extends Preact.Component {
+export default class App extends Component {
     constructor(props) {
         super(props);
 
@@ -28,14 +28,9 @@ export default class App extends Preact.Component {
 
     onScroll(view) {
         // Work out which marker is the current one
-        const fold =
-            view.height *
-            (this.config.waypoint ? this.config.waypoint / 100 : 0.8);
+        const fold = view.height * (this.config.waypoint ? this.config.waypoint / 100 : 0.8);
         const pastMarkers = this.state.markers.filter(marker => {
-            return (
-                marker.element &&
-                marker.element.getBoundingClientRect().top < fold
-            );
+            return marker.element && marker.element.getBoundingClientRect().top < fold;
         });
 
         let lastSeenMarker = pastMarkers[pastMarkers.length - 1];
@@ -69,21 +64,19 @@ export default class App extends Preact.Component {
         const { align, markers, previousMarker, currentMarker } = this.state;
 
         return (
-            <div
-                ref={el => (this.wrapper = el)}
-                className={`u-full Block is-richtext is-${align} is-piecemeal is-scrollyteller`}>
+            <div ref={el => (this.wrapper = el)} className={`Block is-richtext is-${align} is-piecemeal is-scrollyteller`}>
                 <Background
                     marker={currentMarker}
                     previousMarker={previousMarker}
                     attachment={this.state.backgroundAttachment}
                 />
-                {markers.map(marker =>
+                {markers.map(marker => (
                     <Marker
                         marker={marker}
                         reference={el => (marker.element = el)}
                         isCurrentMarker={currentMarker === marker}
                     />
-                )}
+                ))}
             </div>
         );
     }

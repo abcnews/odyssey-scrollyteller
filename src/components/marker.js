@@ -1,6 +1,6 @@
-import Preact from 'preact';
+import { h, Component } from 'preact';
 
-export default class Marker extends Preact.Component {
+export default class Marker extends Component {
     constructor(props) {
         super(props);
 
@@ -20,13 +20,7 @@ export default class Marker extends Preact.Component {
     }
 
     render() {
-        return (
-            <div
-                ref={this.ref}
-                id={this.props.id}
-                className={'Block-content u-layout u-richtext-invert'}
-            />
-        );
+        return <div ref={this.ref} id={this.props.id} className={'Block-content u-layout u-richtext-invert'} />;
     }
 
     ref(element) {

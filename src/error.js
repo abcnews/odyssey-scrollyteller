@@ -1,6 +1,6 @@
-import Preact from 'preact';
+import { h, Component } from 'preact';
 
-export default class ErrorBox extends Preact.Component {
+export default class ErrorBox extends Component {
     componentDidMount() {
         console.error(this.props.error);
     }
@@ -20,9 +20,7 @@ export default class ErrorBox extends Preact.Component {
 
         return (
             <div style={errorStyle}>
-                <pre>
-                    {this.props.error.stack}
-                </pre>
+                <pre>{this.props.error.stack}</pre>
             </div>
         );
     }

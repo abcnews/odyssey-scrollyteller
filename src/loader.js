@@ -40,6 +40,7 @@ function getScrollytellers() {
             // See if there is an interactive node as the first thing
             if (section.betweenNodes[0].tagName === 'DIV') {
                 section.mountNode = section.betweenNodes[0].querySelector('.init-interactive');
+                section.mountNode.parentNode.className += ' u-full';
                 // Don't include this node in the marker check
                 section.betweenNodes[0].mountable = true;
             } else {
