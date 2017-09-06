@@ -4,3 +4,9 @@
         display: none;
     }
 }
+
+:global {
+    .is-piecemeal.is-scrollyteller>.Block-content:last-child {
+        margin-bottom: 100vh; 
+    }
+}

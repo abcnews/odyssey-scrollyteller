@@ -64,7 +64,7 @@ export default class App extends Component {
         const { align, markers, previousMarker, currentMarker } = this.state;
 
         return (
-            <div ref={el => (this.wrapper = el)} className={`Block is-richtext is-${align} is-piecemeal`}>
+            <div ref={el => (this.wrapper = el)} className={`Block is-richtext is-${align} is-piecemeal is-scrollyteller`}>
                 <Background
                     marker={currentMarker}
                     previousMarker={previousMarker}
