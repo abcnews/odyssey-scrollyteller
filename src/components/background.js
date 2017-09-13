@@ -3,11 +3,12 @@ import style from './style.scss';
 import Stage from './stage';
 
 export default class Background extends Component {
-    render() {
-        const { marker, previousMarker, attachment } = this.props;
-
+    render({ marker, previousMarker, attachment, isScrolling }) {
         return (
-            <div ref={el => (this.wrapper = el)} className={`Block-media ${attachment} ${style.background}`}>
+            <div
+                ref={el => (this.wrapper = el)}
+                className={`Block-media ${attachment} ${style.background}  ${isScrolling ? style.isScrolling : ''}`}
+            >
                 <Stage marker={marker} previousMarker={previousMarker} />
             </div>
         );
