@@ -43,6 +43,16 @@ export default class App extends Component {
             });
         }
 
+        clearTimeout(this.scrollTimer);
+        this.setState({
+            isScrolling: true
+        });
+        this.scrollTimer = setTimeout(() => {
+            this.setState({
+                isScrolling: false
+            });
+        }, 100);
+
         // Work out if the background should be fixed or not
         if (this.wrapper) {
             const bounds = this.wrapper.getBoundingClientRect();
@@ -60,12 +70,11 @@ export default class App extends Component {
         }
     }
 
-    render() {
-        const { align, markers, previousMarker, currentMarker } = this.state;
-
+    render(props, { align, markers, previousMarker, currentMarker, isScrolling }) {
         return (
             <div ref={el => (this.wrapper = el)} className={`Block is-richtext is-${align} is-piecemeal is-scrollyteller`}>
                 <Background
+                    isScrolling={isScrolling}
                     marker={currentMarker}
                     previousMarker={previousMarker}
                     attachment={this.state.backgroundAttachment}

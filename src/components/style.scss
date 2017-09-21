@@ -1,12 +1,16 @@
 .background {
-    clip: unset !important;
+    z-index: 1;
     &::after {
         display: none;
     }
 }
 
 :global {
-    .is-piecemeal.is-scrollyteller>.Block-content:last-child {
-        margin-bottom: 100vh; 
+    .is-piecemeal.is-scrollyteller > .Block-content:last-child {
+        margin-bottom: 100vh;
     }
+}
+.background:not(.is-scrolling) {
+    clip: inherit !important;
+    clip: unset !important;
 }
