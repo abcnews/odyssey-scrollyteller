@@ -1,6 +1,6 @@
 {
   "name": "odyssey-scrollyteller",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "An addon for Odyssey which provides a scrollytelling section type.",
   "license": "MIT",
   "private": true,
