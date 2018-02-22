@@ -1,36 +1,4 @@
-function alternatingCaseToObject(string) {
-    const config = string.match(/[A-Z]+[0-9a-z]+/g);
-
-    if (!config) return {};
-
-    let o = {};
-
-    config.forEach(match => {
-        let [, key, value] = match.match(/([A-Z]+)([0-9a-z]+)/);
-        key = key.toLowerCase();
-
-        // Do some type guessing
-        if (parseFloat(value).toString() === value) {
-            value = parseFloat(value);
-        } else if (value === 'true' || value === 'yes') {
-            value = true;
-        } else if (value === 'false' || value === 'no') {
-            value = false;
-        }
-
-        if (o[key]) {
-            // Key exists so treat it as a list
-            if (!(o[key] instanceof Array)) {
-                o[key] = [o[key]];
-            }
-            o[key].push(value);
-        } else {
-            o[key] = value;
-        }
-    });
-
-    return o;
-}
+const alternatingCaseToObject = require('@abcnews/alternating-case-to-object');
 
 // Load any scrollyteller content from Odyssey
 let scrollytellers;

@@ -20,7 +20,15 @@ export default class Marker extends Component {
     }
 
     render() {
-        return <div ref={this.ref} id={this.props.id} className={`Block-content u-layout u-richtext${this.props.marker.section.config.light ? '' : '-invert'}`} />;
+        return (
+            <div
+                ref={this.ref}
+                id={this.props.id}
+                className={`Block-content u-layout u-richtext${
+                    this.props.marker.section.config.light ? '' : '-invert'
+                }`}
+            />
+        );
     }
 
     ref(element) {
