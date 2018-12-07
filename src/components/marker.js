@@ -24,7 +24,7 @@ export default class Marker extends Component {
             <div
                 ref={this.ref}
                 id={this.props.id}
-                className={`Block-content u-layout u-richtext${
+                className={`Block-content${this.props.align ? ` is-${this.props.align}` : ''} u-richtext${
                     this.props.marker.section.config.light ? '' : '-invert'
                 }`}
             />
