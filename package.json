@@ -1,27 +1,27 @@
 {
-  "name": "odyssey-scrollyteller",
-  "version": "2.3.1",
-  "description": "An addon for Odyssey which provides a scrollytelling section type.",
-  "license": "MIT",
-  "private": true,
-  "contributors": [
-    "Nathan Hoad <nathan@nathanhoad.net>",
-    "Simon Elvery <simon@elvery.net>",
-    "Colin Gourlay <gourlay.colin@abc.net.au>"
-  ],
-  "aunty": {
-    "type": "preact"
-  },
-  "scripts": {
-    "start": "aunty serve"
-  },
-  "devDependencies": {
-    "@abcnews/aunty": "^12.1.3"
-  },
-  "dependencies": {
-    "@abcnews/alternating-case-to-object": "^3.0.2",
-    "@abcnews/env-utils": "^3.0.0",
-    "@abcnews/mount-utils": "^2.0.0",
-    "preact": "^10.7.3"
-  }
+	"name": "odyssey-scrollyteller",
+	"version": "3.0.0",
+	"description": "An addon for Odyssey which provides a scrollytelling section type.",
+	"license": "MIT",
+	"private": true,
+	"contributors": [
+		"Nathan Hoad <nathan@nathanhoad.net>",
+		"Simon Elvery <simon@elvery.net>",
+		"Colin Gourlay <gourlay.colin@abc.net.au>"
+	],
+	"aunty": {
+		"type": "preact"
+	},
+	"scripts": {
+		"start": "aunty serve"
+	},
+	"devDependencies": {
+		"@abcnews/aunty": "^12.1.3"
+	},
+	"dependencies": {
+		"@abcnews/alternating-case-to-object": "^3.0.2",
+		"@abcnews/env-utils": "^3.0.0",
+		"@abcnews/mount-utils": "^2.0.0",
+		"preact": "^10.7.3"
+	}
 }
