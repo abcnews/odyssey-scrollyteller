@@ -27,13 +27,13 @@ To hook into the events, use some variation on this code:
 const stage = document.querySelector('[selector-for-your-interactive] .scrollyteller-stage');
 
 if (stage) {
-  init({
-    target: stage,
-    detail: stage.__SCROLLYTELLER__
-  });
+    init({
+        target: stage,
+        detail: stage.__SCROLLYTELLER__
+    });
 } else {
-  // console.log('waiting for the stage');
-  document.addEventListener('mark', init);
+    // console.log('waiting for the stage');
+    document.addEventListener('mark', init);
 }
 
 function init(ev) {
@@ -55,14 +55,15 @@ The opening `#scrollyteller` tag takes some options which are specified using an
 
 The config options available are:
 
-- `ALIGN` (`left`|`right`): Align the content to the left or right when the screen is wide enough. Defaults to `centre` alignment.
-- `WAYPOINT` (integer between `0` and `100`): Defines where on the viewport (% distance from top) `#mark` events are triggered. Defaults to `80`.
+-   `ALIGN` (`left`|`right`): Align the content to the left or right when the screen is wide enough. Defaults to `centre` alignment.
+-   `WAYPOINT` (integer between `0` and `100`): Defines where on the viewport (% distance from top) `#mark` events are triggered. Defaults to `80`.
 
 There is also an option available on individual `#mark` tags.
 
-- `PIECEMEAL` (`true`): Sets all elements between this mark and the next to get their own visual container instead of being grouped together (the default behaviour).
+-   `PIECEMEAL` (`true`): Sets all elements between this mark and the next to get their own visual container instead of being grouped together (the default behaviour).
 
 ## Authors
 
-- Nathan Hoad ([nathan@nathanhoad.net](mailto:nathan@nathanhoad.net))
-- Simon Elvery ([simon@elvery.net](mailto:simon@elvery.net))
+-   Nathan Hoad ([nathan@nathanhoad.net](mailto:nathan@nathanhoad.net))
+-   Simon Elvery ([simon@elvery.net](mailto:simon@elvery.net))
+-   Colin Gourlay ([gourlay.colin@abc.net.au](mailto:gourlay.colin@abc.net.au))

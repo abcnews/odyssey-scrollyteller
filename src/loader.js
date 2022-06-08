@@ -1,10 +1,11 @@
-const alternatingCaseToObject = require('@abcnews/alternating-case-to-object');
+import acto from '@abcnews/alternating-case-to-object';
+import { getMountValue, isMount } from '@abcnews/mount-utils';
 
 // Load any scrollyteller content from Odyssey
 let scrollytellers;
 function getScrollytellers() {
     if (!scrollytellers) {
-        scrollytellers = window.__ODYSSEY__.utils.anchors.getSections('scrollyteller').map(section => {
+        scrollytellers = window.__ODYSSEY__.utils.mounts.getSections('scrollyteller').map(section => {
             // See if there is an interactive node as the first thing
             if (section.betweenNodes[0].tagName === 'DIV') {
                 section.mountNode = section.betweenNodes[0].querySelector('.init-interactive');
@@ -19,7 +20,7 @@ function getScrollytellers() {
             }
 
             // Load the config and find any waypoints
-            section.config = alternatingCaseToObject(section.configSC);
+            section.config = acto(section.configString);
             section.markers = initMarkers(section, 'mark');
 
             return section;
@@ -50,14 +51,14 @@ function initMarkers(section, name) {
 
     // Check the section nodes for markers and marker content
     section.betweenNodes.forEach((node, index) => {
-        if (node.tagName === 'A' && node.getAttribute('name') && node.getAttribute('name').indexOf(name) === 0) {
+        if (isMount(node, name)) {
             // Found a new marker so we should commit the last one
             pushMarker();
 
             // If marker has no config then just use the previous config
-            let configString = node.getAttribute('name').replace(new RegExp(`^${name}`), '');
+            let configString = getMountValue(node).replace(new RegExp(`^${name}`), '');
             if (configString) {
-                nextConfig = alternatingCaseToObject(configString);
+                nextConfig = acto(configString);
                 nextConfig.hash = configString;
             } else {
                 // Empty marks should stop the piecemeal flow
